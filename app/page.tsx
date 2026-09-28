@@ -1,8 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
+import { AutoRefresh } from "@/components/auto-refresh";
 import { Collage } from "@/components/collage";
 import { TripCard } from "@/components/trip-card";
 import { travelers } from "@/data/trips";
+import { getLegStatuses } from "@/lib/tracking";
+
+// Regenerate at most every 5 min; each flight's API call is cached 30 min (lib/tracking.ts).
+export const revalidate = 300;
 
 // Slight tilt per card on desktop, like the sketch.
 const tilts = ["md:-rotate-2", "md:rotate-3", "md:-rotate-1"];
@@ -19,9 +24,15 @@ function getCollageImages(): string[] {
     .map((file) => `/collage/${file}`);
 }
 
-export default function Home() {
+export default async function Home() {
+  // statuses[i][j] = live status of travelers[i].legs[j] (null → use data/trips.ts)
+  const statuses = await Promise.all(
+    travelers.map((traveler) => getLegStatuses(traveler.legs)),
+  );
+
   return (
     <main className="relative isolate flex min-h-screen flex-col items-center gap-10 overflow-x-hidden px-4 py-10 md:py-16">
+      <AutoRefresh />
       <Collage images={getCollageImages()} />
 
       <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Trip Time</h1>
@@ -31,6 +42,7 @@ export default function Home() {
           <TripCard
             key={traveler.name}
             traveler={traveler}
+            statuses={statuses[i]}
             className={`${tilts[i % tilts.length]} ${i === 2 ? "md:col-span-2" : ""}`}
           />
         ))}
