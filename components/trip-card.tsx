@@ -15,12 +15,16 @@ const MIN_DELAY = 15; // minutes; smaller delays are noise
 
 function StatusBadge({ status }: { status: FlightStatus }) {
   const { state, delayMinutes } = status;
-  const notDepartedYet = state === "Scheduled" || state === "Boarding" || state === "Delayed";
+  const notDepartedYet =
+    state === "Scheduled" || state === "Boarding" || state === "Delayed";
   const delayed = notDepartedYet && delayMinutes >= MIN_DELAY;
   const label = delayed ? `Delayed ${delayMinutes}m` : state;
 
   const variant =
-    delayed || state === "Delayed" || state === "Cancelled" || state === "Diverted"
+    delayed ||
+    state === "Delayed" ||
+    state === "Cancelled" ||
+    state === "Diverted"
       ? "destructive"
       : state === "Landed"
         ? "default"
@@ -70,7 +74,10 @@ export function TripCard({ traveler, statuses, className }: Props) {
             <div className="grid grid-cols-2">
               <div className="pr-4">
                 <p className="text-muted-foreground">Departure</p>
-                <Countdown target={times[i].departure} doneLabel="Departed! ✈️" />
+                <Countdown
+                  target={times[i].departure}
+                  doneLabel="Departed! ✈️"
+                />
               </div>
               <div className="border-l pl-4">
                 <p className="text-muted-foreground">Arrive</p>
@@ -81,7 +88,7 @@ export function TripCard({ traveler, statuses, className }: Props) {
         ))}
 
         <div className="flex items-center justify-between gap-4 text-lg font-bold">
-          <span>Arrived to Australia 🎉</span>
+          <span>Arrived in Australia 🎉</span>
           <Countdown
             target={times[times.length - 1].arrival}
             doneLabel="Arrived to Australia 🎉"

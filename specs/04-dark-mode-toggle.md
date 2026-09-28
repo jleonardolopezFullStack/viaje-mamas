@@ -1,6 +1,6 @@
 # SPEC 04 — Tema oscuro por defecto con botón para cambiar a claro
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01
 > **Fecha:** 2026-09-28
 > **Objetivo:** Mostrar el dashboard en tema oscuro por defecto, con un botón redondo fijo abajo a la derecha que alterna entre oscuro y claro y recuerda la elección en el navegador.

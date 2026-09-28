@@ -58,7 +58,7 @@ export function Collage({ images }: Props) {
   const imageAt = (i: number, k: number) => images[(i + k * shapes.length) % images.length];
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-40 md:opacity-100">
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-40 md:opacity-100 dark:brightness-[.7]">
       {shapes.map(({ shape, position }, i) => {
         const k = cycles[i];
         // Two stacked layers: the active one (k % 2) fades in, the other keeps the previous photo and fades out.
