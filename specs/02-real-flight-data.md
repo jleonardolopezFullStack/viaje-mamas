@@ -1,6 +1,6 @@
 # SPEC 02 — Datos reales de vuelos por viajera
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01
 > **Fecha:** 2026-09-28
 > **Objetivo:** Reemplazar los datos inventados por los vuelos reales de cada viajera (número, aerolínea, ruta y horarios) y mostrar cada vuelo como una fila en su caja.
