@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Trip Time — Viaje mamás
 
-## Getting Started
+Dashboard with countdowns to each traveler's flights (departure, arrival and total to Australia), live flight status from AeroDataBox, a rotating photo collage and dark/light theme.
 
-First, run the development server:
+**Live:** https://viaje-mamas.vercel.app
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # then fill in the values
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Variable | Description |
+| --- | --- |
+| `AERODATABOX_API_KEY` | RapidAPI key for AeroDataBox (server only, never exposed to the browser). |
+| `TRACKING_MOCK` | `true` uses fake flight statuses (no API calls, no quota). `false` uses the real API. |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other commands: `npm run build` (production build + type-check), `npm run lint`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Updating content
 
-## Learn More
+- **Flights:** edit `data/trips.ts` (ISO dates with explicit offset, local time of each airport).
+- **Photos:** add or remove images in `public/collage/` (any file name; `.jpg .jpeg .png .webp .avif`).
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Hosted on **Vercel**, connected to this GitHub repo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Every push to `master` deploys to production automatically (~1–2 min).
+- Every branch / pull request gets its own preview URL.
+- Live flight statuses refresh on their own (each flight is queried at most every 30 min, only from 6 h before departure to 2 h after arrival).
 
-## Deploy on Vercel
+Environment variables in Vercel (Settings → Environment Variables):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Variable | Production | Preview |
+| --- | --- | --- |
+| `AERODATABOX_API_KEY` | real key | — |
+| `TRACKING_MOCK` | `false` | `true` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Specs
+
+Features are defined in `specs/` and implemented one per branch (`spec-NN-slug`).
