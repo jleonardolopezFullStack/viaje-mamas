@@ -20,7 +20,7 @@ El usuario pidió datos reales y seguimiento en vivo. Se dividió en dos specs. 
 - Nuevo modelo de tramo en `data/trips.ts`: número de vuelo, aerolínea, operador opcional, origen y destino en código IATA, salida y llegada.
 - Vuelos reales dados por el usuario:
   - **Sonia Tovar:** LA575 (operado por Wamos Air) BOG → SCL, sale 22 oct 2026 06:35. LA809 (LATAM) SCL → SYD, sale 23 oct 2026 02:30, llega 24 oct 2026 07:50.
-  - **Ana Rairan:** tramo inventado BOG → HKG (número `TBD`, sale unos días antes del 23 oct). CX161 (Cathay Pacific) HKG → SYD, sale 23 oct 2026 09:40.
+  - **Ana Rairan:** tramo inventado BOG → HKG (número `TBD`, sale unos días antes del 24 oct). CX161 (Cathay Pacific) HKG → SYD, sale 24 oct 2026 21:35 (corregido según tiquete; antes 23 oct 09:40), duración 9h05.
   - **Maria Cruz:** AA1130 (American Airlines) BOG → MIA, sale 26 oct 2026 06:40. AA1115 MIA → LAX, sale 26 oct 2026 13:45. QF4112 LAX → SYD, sale 26 oct 2026 23:45.
 - Horas de llegada que faltan (LA575, CX161, AA1130, AA1115, QF4112): se buscan en horarios públicos durante la implementación.
 - Operador real de QF4112 (código compartido): se busca y se guarda en `operatedBy`.
@@ -92,7 +92,7 @@ Ejemplo real:
 2. **Nuevo diseño de fila en `TripCard`.** Un bloque por vuelo con encabezado `FLIGHT · FROM → TO`, la línea `Operated by X` si existe `operatedBy`, y las columnas Departure / Arrive debajo. Verificar en `npm run dev` con los datos de ejemplo.
 3. **Datos dados por el usuario.** Cargar en `data/trips.ts` los números, aerolíneas, operador de LA575, orígenes, destinos y horas de salida de los 7 vuelos. También la llegada de LA809. Las llegadas que faltan quedan provisionalmente con un valor aproximado y marcadas `// unconfirmed`.
 4. **Llegadas faltantes.** Buscar en horarios públicos la llegada programada de LA575, CX161, AA1130, AA1115 y QF4112, y el operador de QF4112. Reemplazar los valores aproximados. Mantener `// unconfirmed` y anotar la fuente en el comentario.
-5. **Tramo inventado de Ana.** BOG → HKG con `flight: "TBD"`, salida y llegada inventadas y coherentes (llega a HKG antes del 23 oct 09:40), todo marcado `// unconfirmed`.
+5. **Tramo inventado de Ana.** BOG → HKG con `flight: "TBD"`, salida y llegada inventadas y coherentes (llega a HKG antes del 24 oct 21:35), todo marcado `// unconfirmed`.
 6. **Ajuste visual.** Revisar a 1400 px y 375 px que la caja de Maria (3 vuelos) no rompa el layout: sin scroll horizontal y con las cajas legibles. Ajustar espaciados si hace falta.
 7. **Cierre.** `npm run lint` y `npm run build` sin errores.
 8. **Sección Total.** En `TripCard`, bajo el último vuelo y separada por una línea, una fila en negrilla `Total` + `Countdown` con `target` = `arrival` del último tramo y `doneLabel="Arrived to Australia 🎉"`. Verificar en desktop y móvil; `npm run lint` y `npm run build` sin errores.
@@ -108,7 +108,7 @@ Ejemplo real:
 - [ ] La caja de Maria muestra 3 vuelos: `AA1130 · BOG → MIA`, `AA1115 · MIA → LAX` y `QF4112 · LAX → SYD` (con su `Operated by …` si el operador real no es Qantas).
 - [ ] La salida de LA575 es `2026-10-22T06:35:00-05:00`.
 - [ ] LA809 sale `2026-10-23T02:30:00-03:00` y llega `2026-10-24T07:50:00+11:00`.
-- [ ] CX161 sale `2026-10-23T09:40:00+08:00`.
+- [ ] CX161 sale `2026-10-24T21:35:00+08:00` y llega `2026-10-25T09:40:00+11:00` (9h05 según tiquete).
 - [ ] AA1130 sale `2026-10-26T06:40:00-05:00`, AA1115 sale `2026-10-26T13:45:00-04:00` y QF4112 sale `2026-10-26T23:45:00-07:00`.
 - [ ] En cada viajera, la llegada de cada vuelo es anterior a la salida del siguiente.
 - [ ] Todos los valores no dados por el usuario llevan el comentario `// unconfirmed` en `data/trips.ts`.
@@ -135,6 +135,7 @@ Ejemplo real:
 - **Sí:** mantener fechas ISO con offset explícito (convención de SPEC 01). Los offsets de octubre 2026 están documentados arriba.
 - **Sí:** sección Total dentro de SPEC 02 (decisión del usuario) en vez de un spec nuevo. Cambio pequeño que reutiliza `Countdown`.
 - **Sí:** el Total usa la llegada del último tramo; todas las viajeras terminan en SYD. **No:** buscar el tramo con destino SYD (innecesario hoy).
+- **Sí:** CX161 corregido a 24 oct 21:35 según tiquete (el usuario confirmó que 09:40 era un error). Llegada calculada con la duración del tiquete (9h05) y Sídney en AEDT (+11, desde el 4 oct 2026): 25 oct 09:40.
 
 ---
 

@@ -36,8 +36,8 @@ export const travelers: Traveler[] = [
         airline: "Cathay Pacific",
         from: "HKG",
         to: "SYD",
-        departure: "2026-10-23T09:40:00+08:00",
-        arrival: "2026-10-23T21:55:00+11:00", // unconfirmed: 9h15 block time (flightstats/airportia); published schedule departs 21:35, not 09:40
+        departure: "2026-10-24T21:35:00+08:00",
+        arrival: "2026-10-25T09:40:00+11:00", // computed: ticket duration 9h05, Sydney on AEDT (+11) since 4 Oct 2026
       },
     ],
   },
