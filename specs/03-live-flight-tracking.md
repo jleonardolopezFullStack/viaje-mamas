@@ -1,6 +1,6 @@
 # SPEC 03 — Seguimiento en vivo de vuelos con AeroDataBox
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01, SPEC 02
 > **Fecha:** 2026-09-28
 > **Objetivo:** Consultar desde el servidor el estado real de cada vuelo en AeroDataBox (con caché de 30 min y solo cerca de cada vuelo) y mostrarlo como etiqueta, usando sus horas reales en los contadores.

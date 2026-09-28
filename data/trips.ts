@@ -11,6 +11,7 @@ export type Leg = {
   to: string; // destination IATA: "SCL"
   departure: string; // local time at origin
   arrival: string; // local time at destination
+  trackAs?: string; // flight number to query in the tracking API when it differs (codeshare): "AA73"
 };
 
 export type Traveler = {
@@ -64,6 +65,7 @@ export const travelers: Traveler[] = [
         flight: "QF4112",
         airline: "Qantas",
         operatedBy: "American Airlines", // unconfirmed: codeshare of AA73 (flightera/flyteam)
+        trackAs: "AA73",
         from: "LAX",
         to: "SYD",
         departure: "2026-10-26T23:45:00-07:00",
