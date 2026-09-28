@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { AutoRefresh } from "@/components/auto-refresh";
 import { Collage } from "@/components/collage";
+import { SkyBackground } from "@/components/sky-background";
 import { TripCard } from "@/components/trip-card";
 import { travelers } from "@/data/trips";
 import { getLegStatuses } from "@/lib/tracking";
@@ -33,9 +34,12 @@ export default async function Home() {
   return (
     <main className="relative isolate flex min-h-screen flex-col items-center gap-10 overflow-x-hidden px-4 py-10 md:py-16">
       <AutoRefresh />
+      <SkyBackground />
       <Collage images={getCollageImages()} />
 
-      <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Trip Time</h1>
+      <h1 className="bg-linear-to-r from-sky-600 via-violet-600 to-rose-500 bg-clip-text pb-2 text-5xl font-bold tracking-tight text-transparent md:text-7xl dark:from-violet-300 dark:via-fuchsia-300 dark:to-sky-300">
+        Trip Time
+      </h1>
 
       <div className="grid w-full max-w-4xl items-start justify-items-center gap-6 md:grid-cols-2 md:gap-12">
         {travelers.map((traveler, i) => (
