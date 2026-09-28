@@ -26,7 +26,7 @@ export default function Home() {
 
       <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Trip Time</h1>
 
-      <div className="grid w-full max-w-4xl justify-items-center gap-6 md:grid-cols-2 md:gap-12">
+      <div className="grid w-full max-w-4xl items-start justify-items-center gap-6 md:grid-cols-2 md:gap-12">
         {travelers.map((traveler, i) => (
           <TripCard
             key={traveler.name}
