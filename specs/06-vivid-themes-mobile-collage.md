@@ -1,6 +1,6 @@
 # SPEC 06 — Fondos vivos (galaxia / amanecer) y collage visible en móvil
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01, SPEC 04
 > **Fecha:** 2026-09-28
 > **Objetivo:** Dar al tema oscuro un fondo galáctico y al claro un cielo de amanecer, con título y cajas a juego, y hacer que en móvil las fotos del collage se vean grandes y siempre visibles.

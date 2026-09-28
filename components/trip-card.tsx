@@ -45,7 +45,7 @@ export function TripCard({ traveler, statuses, className }: Props) {
   return (
     <Card
       className={cn(
-        "w-full max-w-md bg-card/75 shadow-xl backdrop-blur-md",
+        "w-full max-w-md bg-white/70 shadow-xl shadow-sky-300/40 ring-sky-300/50 backdrop-blur-md dark:bg-slate-950/55 dark:shadow-violet-500/20 dark:ring-violet-400/30",
         className,
       )}
     >

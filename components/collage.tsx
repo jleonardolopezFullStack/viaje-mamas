@@ -4,31 +4,31 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 // One entry per figure: CSS shape + position/size.
-// Mobile: bigger, peeking from the edges; md+: around the cards.
+// Mobile: large (55-65vw), fixed to the screen and peeking from the edges; md+: around the cards.
 const shapes = [
   {
     shape: "shape-circle",
-    position: "top-[1%] -left-[12%] size-[40vw] md:top-[4%] md:left-[3%] md:size-[22vw]",
+    position: "top-[2%] -left-[15%] size-[60vw] md:top-[4%] md:left-[3%] md:size-[22vw]",
   },
   {
     shape: "shape-blob",
-    position: "top-[30%] -right-[15%] size-[45vw] md:top-[48%] md:right-auto md:-left-[2%] md:size-[26vw]",
+    position: "top-[36%] -left-[22%] size-[65vw] md:top-[48%] md:-left-[2%] md:size-[26vw]",
   },
   {
     shape: "shape-hexagon",
-    position: "top-[1%] -right-[10%] size-[35vw] md:top-[2%] md:right-[4%] md:size-[20vw]",
+    position: "top-[8%] -right-[18%] size-[55vw] md:top-[2%] md:right-[4%] md:size-[20vw]",
   },
   {
     shape: "shape-diamond",
-    position: "top-[55%] -left-[15%] size-[45vw] md:top-[40%] md:left-auto md:-right-[1%] md:size-[24vw]",
+    position: "top-[42%] -right-[22%] size-[62vw] md:top-[40%] md:-right-[1%] md:size-[24vw]",
   },
   {
     shape: "shape-rounded",
-    position: "bottom-[12%] -right-[12%] size-[40vw] md:bottom-[3%] md:right-auto md:left-[24%] md:size-[16vw]",
+    position: "bottom-[8%] -left-[12%] size-[58vw] md:bottom-[3%] md:left-[24%] md:size-[16vw]",
   },
   {
     shape: "shape-star",
-    position: "bottom-[1%] left-[5%] size-[35vw] md:bottom-[4%] md:left-auto md:right-[20%] md:size-[18vw]",
+    position: "bottom-[2%] -right-[15%] size-[60vw] md:bottom-[4%] md:right-[20%] md:size-[18vw]",
   },
 ];
 
@@ -58,7 +58,7 @@ export function Collage({ images }: Props) {
   const imageAt = (i: number, k: number) => images[(i + k * shapes.length) % images.length];
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-40 md:opacity-100 dark:brightness-[.7]">
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden opacity-70 md:absolute md:opacity-100 dark:brightness-[.7]">
       {shapes.map(({ shape, position }, i) => {
         const k = cycles[i];
         // Two stacked layers: the active one (k % 2) fades in, the other keeps the previous photo and fades out.

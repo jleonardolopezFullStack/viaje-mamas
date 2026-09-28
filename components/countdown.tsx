@@ -3,13 +3,32 @@
 import { useSyncExternalStore } from "react";
 import { formatRemaining, getRemaining } from "@/lib/countdown";
 
-// Current time in whole seconds; null on the server so SSR shows the placeholder.
+// Shared clock for every Countdown: one interval, cached value.
+// getSnapshot must return the same value until the store changes, so it reads `now`
+// instead of calling Date.now() (which can differ between React's repeated calls).
+let now = Date.now();
+const listeners = new Set<() => void>();
+let timer: ReturnType<typeof setInterval> | undefined;
+
 function subscribe(onTick: () => void) {
-  const id = setInterval(onTick, 1000);
-  return () => clearInterval(id);
+  listeners.add(onTick);
+  if (!timer) {
+    now = Date.now();
+    timer = setInterval(() => {
+      now = Date.now();
+      listeners.forEach((listener) => listener());
+    }, 1000);
+  }
+  return () => {
+    listeners.delete(onTick);
+    if (listeners.size === 0) {
+      clearInterval(timer);
+      timer = undefined;
+    }
+  };
 }
-const getNow = () => Math.floor(Date.now() / 1000) * 1000;
-const getServerNow = () => null;
+const getNow = () => now;
+const getServerNow = () => null; // SSR shows the placeholder
 
 type Props = {
   target: string;

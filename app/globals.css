@@ -149,3 +149,59 @@
     clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
   }
 }
+
+/* Page backgrounds (components/sky-background.tsx) */
+@layer components {
+  /* Light theme: dawn sky, sky blue → lavender → peach/pink */
+  .sky-dawn {
+    background: linear-gradient(to bottom, #bae6fd 0%, #ddd6fe 45%, #fed7aa 80%, #fbcfe8 100%);
+  }
+
+  /* Dark theme: near-black blue base + purple / indigo / magenta nebulas */
+  .sky-galaxy {
+    background:
+      radial-gradient(ellipse 60% 45% at 15% 20%, rgb(124 58 237 / 0.35), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 85% 35%, rgb(79 70 229 / 0.3), transparent 70%),
+      radial-gradient(ellipse 55% 45% at 50% 90%, rgb(192 38 211 / 0.25), transparent 70%),
+      #05040f;
+  }
+
+  /* Star layers: tiled dots that twinkle at different rhythms */
+  .stars {
+    background-image:
+      radial-gradient(1.5px 1.5px at 20px 30px, white, transparent),
+      radial-gradient(1.5px 1.5px at 90px 140px, white, transparent),
+      radial-gradient(2px 2px at 160px 60px, rgb(255 255 255 / 0.9), transparent),
+      radial-gradient(1.5px 1.5px at 220px 190px, white, transparent),
+      radial-gradient(2px 2px at 60px 220px, rgb(221 214 254), transparent);
+    background-size: 250px 250px;
+    animation: twinkle 5s ease-in-out infinite;
+  }
+  .stars-far {
+    background-image:
+      radial-gradient(1px 1px at 40px 70px, rgb(255 255 255 / 0.8), transparent),
+      radial-gradient(1px 1px at 130px 20px, rgb(255 255 255 / 0.7), transparent),
+      radial-gradient(1px 1px at 300px 120px, rgb(186 230 253 / 0.8), transparent),
+      radial-gradient(1px 1px at 250px 330px, rgb(255 255 255 / 0.7), transparent),
+      radial-gradient(1px 1px at 80px 300px, rgb(255 255 255 / 0.6), transparent);
+    background-size: 380px 380px;
+    animation: twinkle 8s ease-in-out infinite reverse;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars,
+  .stars-far {
+    animation: none;
+  }
+}
