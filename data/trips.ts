@@ -15,7 +15,7 @@ export type Traveler = {
 
 export const travelers: Traveler[] = [
   {
-    name: "Ana Rairon",
+    name: "Ana Rairan",
     legs: [
       {
         destination: "China",

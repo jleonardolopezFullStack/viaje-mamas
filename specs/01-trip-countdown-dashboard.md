@@ -1,6 +1,6 @@
 # SPEC 01 — Dashboard "Trip Time" con cuentas regresivas y collage de fondo
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** —
 > **Fecha:** 2026-09-28
 > **Objetivo:** Una página única que muestra, por cada viajera, la cuenta regresiva de salida y de llegada de cada tramo de vuelo sobre un collage animado de fotos.
