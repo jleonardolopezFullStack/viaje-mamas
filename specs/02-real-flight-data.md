@@ -1,6 +1,6 @@
 # SPEC 02 — Datos reales de vuelos por viajera
 
-> **Estado:** Borrador
+> **Estado:** Aprobado
 > **Depende de:** SPEC 01
 > **Fecha:** 2026-09-28
 > **Objetivo:** Reemplazar los datos inventados por los vuelos reales de cada viajera (número, aerolínea, ruta y horarios) y mostrar cada vuelo como una fila en su caja.
@@ -31,6 +31,7 @@ El usuario pidió datos reales y seguimiento en vivo. Se dividió en dos specs. 
   - Debajo, dos columnas "Departure" / "Arrive" con sus contadores (lógica de SPEC 01 sin cambios).
 - Se muestran **todos** los vuelos de cada viajera (Maria: 3, Sonia: 2, Ana: 2).
 - Nombre de Ana corregido a "Ana Rairan" (ya cambiado a mano en `data/trips.ts`).
+- Sección **Total** al final de cada caja, en negrilla: a la izquierda `Total`, en frente la cuenta regresiva hasta la llegada del último vuelo (Sídney). Al llegar a cero muestra `Arrived to Australia 🎉`. (Añadido tras implementar los pasos 1–7.)
 
 **Fuera de alcance (specs futuros):**
 
@@ -48,13 +49,13 @@ El usuario pidió datos reales y seguimiento en vivo. Se dividió en dos specs. 
 ```ts
 // data/trips.ts
 export type Leg = {
-  flight: string;       // "LA575", "TBD" si aún no se conoce
-  airline: string;      // aerolínea que vende el vuelo: "LATAM", "Cathay Pacific", "American Airlines", "Qantas"
-  operatedBy?: string;  // solo si opera otra aerolínea: "Wamos Air"
-  from: string;         // IATA origen: "BOG"
-  to: string;           // IATA destino: "SCL"
-  departure: string;    // ISO 8601 con offset, hora local del origen
-  arrival: string;      // ISO 8601 con offset, hora local del destino
+  flight: string; // "LA575", "TBD" si aún no se conoce
+  airline: string; // aerolínea que vende el vuelo: "LATAM", "Cathay Pacific", "American Airlines", "Qantas"
+  operatedBy?: string; // solo si opera otra aerolínea: "Wamos Air"
+  from: string; // IATA origen: "BOG"
+  to: string; // IATA destino: "SCL"
+  departure: string; // ISO 8601 con offset, hora local del origen
+  arrival: string; // ISO 8601 con offset, hora local del destino
 };
 
 export type Traveler = {
@@ -67,14 +68,14 @@ Se elimina el campo `destination` de SPEC 01. Lo reemplazan `from` y `to`.
 
 Offsets vigentes en las fechas de los vuelos (octubre 2026):
 
-| Aeropuerto | Offset |
-| --- | --- |
-| BOG Bogotá | `-05:00` |
+| Aeropuerto                       | Offset   |
+| -------------------------------- | -------- |
+| BOG Bogotá                       | `-05:00` |
 | SCL Santiago (horario de verano) | `-03:00` |
-| HKG Hong Kong | `+08:00` |
-| MIA Miami (EDT) | `-04:00` |
-| LAX Los Ángeles (PDT) | `-07:00` |
-| SYD Sídney (AEDT) | `+11:00` |
+| HKG Hong Kong                    | `+08:00` |
+| MIA Miami (EDT)                  | `-04:00` |
+| LAX Los Ángeles (PDT)            | `-07:00` |
+| SYD Sídney (AEDT)                | `+11:00` |
 
 Ejemplo real:
 
@@ -94,6 +95,7 @@ Ejemplo real:
 5. **Tramo inventado de Ana.** BOG → HKG con `flight: "TBD"`, salida y llegada inventadas y coherentes (llega a HKG antes del 23 oct 09:40), todo marcado `// unconfirmed`.
 6. **Ajuste visual.** Revisar a 1400 px y 375 px que la caja de Maria (3 vuelos) no rompa el layout: sin scroll horizontal y con las cajas legibles. Ajustar espaciados si hace falta.
 7. **Cierre.** `npm run lint` y `npm run build` sin errores.
+8. **Sección Total.** En `TripCard`, bajo el último vuelo y separada por una línea, una fila en negrilla `Total` + `Countdown` con `target` = `arrival` del último tramo y `doneLabel="Arrived to Australia 🎉"`. Verificar en desktop y móvil; `npm run lint` y `npm run build` sin errores.
 
 ---
 
@@ -113,6 +115,8 @@ Ejemplo real:
 - [ ] Ningún indicador de "unconfirmed" o "estimated" aparece en la UI.
 - [ ] A 1400 px y a 375 px no hay scroll horizontal y todas las filas de vuelo son legibles.
 - [ ] Los contadores siguen bajando cada segundo, y los mensajes `Departed! ✈️` / `Arrived! 🎉` siguen funcionando (lógica de SPEC 01 intacta).
+- [ ] Cada caja termina con una fila en negrilla `Total` y, en frente, la cuenta regresiva hasta la llegada del último vuelo (Ana: CX161, Maria: QF4112, Sonia: LA809).
+- [ ] Con la llegada del último vuelo en el pasado, la fila Total muestra `Arrived to Australia 🎉`.
 
 ---
 
@@ -129,18 +133,20 @@ Ejemplo real:
 - **Sí:** llegada de LA809 el 24 oct 07:50 (no el 25). Cuadra con ~15 h de vuelo SCL → SYD cruzando la línea de cambio de fecha.
 - **Sí:** tramo BOG → HKG de Ana inventado con `flight: "TBD"`, hasta tener los datos reales.
 - **Sí:** mantener fechas ISO con offset explícito (convención de SPEC 01). Los offsets de octubre 2026 están documentados arriba.
+- **Sí:** sección Total dentro de SPEC 02 (decisión del usuario) en vez de un spec nuevo. Cambio pequeño que reutiliza `Countdown`.
+- **Sí:** el Total usa la llegada del último tramo; todas las viajeras terminan en SYD. **No:** buscar el tramo con destino SYD (innecesario hoy).
 
 ---
 
 ## Riesgos
 
-| Riesgo | Mitigación |
-| --- | --- |
-| Horarios publicados cambian antes de octubre | Marcados `// unconfirmed` con su fuente. SPEC 03 (tracking) dará la hora real. |
-| Offset equivocado por horario de verano (Chile, EE. UU., Sídney) | Tabla de offsets en este spec. Criterio: la llegada de cada vuelo es anterior a la salida del siguiente. |
-| La caja de Maria (3 vuelos) desequilibra el layout de SPEC 01 | Paso 6 revisa desktop y móvil. Se ajusta solo el espaciado, no el layout. |
+| Riesgo                                                                  | Mitigación                                                                                                  |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Horarios publicados cambian antes de octubre                            | Marcados `// unconfirmed` con su fuente. SPEC 03 (tracking) dará la hora real.                              |
+| Offset equivocado por horario de verano (Chile, EE. UU., Sídney)        | Tabla de offsets en este spec. Criterio: la llegada de cada vuelo es anterior a la salida del siguiente.    |
+| La caja de Maria (3 vuelos) desequilibra el layout de SPEC 01           | Paso 6 revisa desktop y móvil. Se ajusta solo el espaciado, no el layout.                                   |
 | QF4112 es código compartido; el número del operador real puede ser otro | Se guarda el operador en `operatedBy`. El número del operador se resuelve en SPEC 03 si la API lo necesita. |
-| No se encuentra un horario público para algún vuelo | Queda el valor aproximado con `// unconfirmed` y se avisa al usuario. |
+| No se encuentra un horario público para algún vuelo                     | Queda el valor aproximado con `// unconfirmed` y se avisa al usuario.                                       |
 
 ---
 
