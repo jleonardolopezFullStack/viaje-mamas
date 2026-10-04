@@ -1,6 +1,6 @@
 // Real flights. Dates are ISO 8601 with explicit offset, in the local time of each airport.
-// Offsets in October 2026: BOG -05:00, SCL -03:00 (DST), HKG +08:00, MIA -04:00 (EDT),
-// LAX -07:00 (PDT), SYD +11:00 (AEDT).
+// Offsets in October 2026: BOG -05:00, SCL -03:00 (DST), CDG +02:00 (CEST, until 25 Oct),
+// HKG +08:00, MIA -04:00 (EDT), LAX -07:00 (PDT), SYD +11:00 (AEDT).
 // Values not given by the user are marked `// unconfirmed`.
 
 export type Leg = {
@@ -23,22 +23,31 @@ export const travelers: Traveler[] = [
   {
     name: "Ana Rairan",
     legs: [
-      // unconfirmed: whole leg invented until real BOG→HKG data is available
       {
-        flight: "TBD",
-        airline: "TBD",
+        flight: "AF0435",
+        airline: "Air France",
+        trackAs: "AF435", // in case the tracking API rejects the leading zero
         from: "BOG",
+        to: "CDG",
+        departure: "2026-10-11T21:35:00-05:00",
+        arrival: "2026-10-12T15:00:00+02:00",
+      },
+      {
+        flight: "AF0188",
+        airline: "Air France",
+        trackAs: "AF188", // in case the tracking API rejects the leading zero
+        from: "CDG",
         to: "HKG",
-        departure: "2026-10-20T23:00:00-05:00", // unconfirmed
-        arrival: "2026-10-22T20:00:00+08:00", // unconfirmed
+        departure: "2026-10-12T23:30:00+02:00",
+        arrival: "2026-10-13T17:40:00+08:00",
       },
       {
         flight: "CX161",
         airline: "Cathay Pacific",
         from: "HKG",
         to: "SYD",
-        departure: "2026-10-24T21:35:00+08:00",
-        arrival: "2026-10-25T09:40:00+11:00", // computed: ticket duration 9h05, Sydney on AEDT (+11) since 4 Oct 2026
+        departure: "2026-10-23T21:35:00+08:00",
+        arrival: "2026-10-24T09:40:00+11:00",
       },
     ],
   },
