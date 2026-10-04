@@ -1,6 +1,6 @@
 # SPEC 07 — Vuelos reales de Ana (Bogotá → París → Hong Kong → Sídney)
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 03
 > **Fecha:** 2026-10-04
 > **Objetivo:** Reemplazar el tramo inventado BOG → HKG de Ana por sus dos vuelos reales de Air France y corregir la fecha del CX161.
